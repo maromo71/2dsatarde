@@ -1,14 +1,27 @@
 <?php
+//programa modificado para uso de sessão.
+//apenas para ilustrar como podemos resolver o problema
+//nao foi usado a classe. Por isso nao fiz essa
+//solução. Já que a aula era de classes.
+session_start();
 
-    require_once "loja.php";
-    $estoque = new Loja;
-    if(isset($_POST["descricao"])){
-        $descricao = $_POST["descricao"];
-        $quantidade = $_POST["quantidade"];
-        $estoque->adicionar($descricao, $quantidade);
-    }
-    $produtos = $estoque->itens;
+// Verifica se existe um array de produtos na sessão
+if (!isset($_SESSION["produtos"])) {
+    $_SESSION["produtos"] = [];
+}
+
+// Verifica se foi enviado um novo produto
+if (isset($_POST["descricao"]) && isset($_POST["quantidade"])) {
+    $descricao = $_POST["descricao"];
+    $quantidade = $_POST["quantidade"];
+
+    // Adiciona o novo produto ao array na sessão
+    $_SESSION["produtos"][$descricao] = $quantidade;
+}
+
+$produtos = $_SESSION["produtos"];
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -40,11 +53,11 @@
         </thead>
         <tbody>
             <?php
-            foreach($produtos as $key => $value) {
+            foreach ($produtos as $descricao => $quantidade) {
             ?>
             <tr>
-                <td><?=$key?></td>
-                <td><?=$value?></td>
+                <td><?= $descricao ?></td>
+                <td><?= $quantidade ?></td>
             </tr>
             <?php
             }
