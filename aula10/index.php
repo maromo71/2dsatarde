@@ -10,10 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quantidade = $_POST['quantidade'];
     $valor = $_POST['valor'];
 
-    $produto[] = new Produto($codigo, $descricao, $quantidade, $valor);
-    $_SESSION["produtos"] = $produto;
+    $produto = new Produto($codigo, $descricao, $quantidade, $valor);
+    if (!isset($_SESSION['produtos'])) {
+        $_SESSION['produtos'] = [];
+    }
+    $_SESSION['produtos'][] = $produto;
 }
-$produtos = $_SESSION["produtos"];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,15 +37,12 @@ $produtos = $_SESSION["produtos"];
         </form>
 
         <?php
-        if ($produtos !== null) {
+        
             echo "<table>";
             echo "<tr><th>Código</th><th>Descrição</th><th>Quantidade em Estoque</th><th>Valor Unitário</th></tr>";
-            
-                print_r($produtos);
-             
-           
-            
-        }
+            foreach ($_SESSION['produtos'] as $produto) {
+                echo "<tr><td>" . $produto->codigo . "</td><td>" . $produto->descricao . "</td><td>" . $produto->quantidade . "</td><td>" . $produto->valor . "</td></tr>";
+            }
         ?>
     </body>
 </html>
