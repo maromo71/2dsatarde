@@ -1,5 +1,8 @@
 <?php
     session_start(); //iniciar uma sessão
+    if(!isset($_SESSION["nome_usuario"])){
+        header("Location: index.php");
+    }
     $nome_usuario = $_SESSION["nome_usuario"]; //pegar o nome do usuario desta sessão
 ?>
 <!DOCTYPE html>
