@@ -1,13 +1,41 @@
 <?php
-//Arquivo vamos melhorar depois
-//1. Incluindo o arquivo com os dados de conexao
 include_once 'conexao.php';
-//2. Usando o padrao de codificacao com acentos e ç
 $conn->exec("set names utf8");
-//3. Selecionando todos os alunos da tabela tb_alunos
 $sql = "select * from tb_alunos";
-//4. Montando uma tabela com o resultado
 $result = $conn->query($sql);
-$rows= $result->fetchAll(PDO::FETCH_ASSOC);
-//5. exibindo os dados de todas as linhas (cada registro)
-print_r($rows);
+
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Exemplo de Dados</title>
+    <h2>Banco Escola</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>RM</th>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php while ($rows = $result->fetch(PDO::FETCH_ASSOC)): ?>
+            <tr>
+                <td><?=$rows['rm'] ?></td>
+                <td><?=$rows['nome'] ?></td>
+                <td><?=$rows['email'] ?></td>
+                
+            </tr>
+        <?php endwhile; ?>
+        </tbody>
+    </table>
+</head>
+<body>
+    
+</body>
+</html>
+
+
